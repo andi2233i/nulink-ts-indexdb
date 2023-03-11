@@ -28,6 +28,22 @@ export interface DbOperate<T> {
     success(res: T[] | T): void;
     handle(res: T): void;
 }
+export interface DbCountOperate<T> {
+    tableName: string;
+    key: string;
+    countCondition: {
+        type: 'equal' | 'gt' | 'lt' | 'between';
+        rangeValue: [any, any?, any?, any?];
+    };
+}
+export interface DbCountOperate<T> {
+    tableName: string;
+    key: string;
+    countCondition: {
+        type: 'equal' | 'gt' | 'lt' | 'between';
+        rangeValue: [any, any?, any?, any?];
+    };
+}
 export declare class TsIndexDb {
     private dbName;
     private version;
@@ -68,7 +84,7 @@ export declare class TsIndexDb {
         key ≥ x &&< y	    {key: 'between' rangeValue: [x, y, false, true]}
         key = z	            {key: 'equal' rangeValue: [z]}
      */
-    count<T>({ tableName, key, countCondition }: Pick<DbOperate<T>, 'key' | 'tableName' | 'countCondition'>): Promise<T>;
+    count<T>({ tableName, key, countCondition }: Pick<DbCountOperate<T>, 'key' | 'tableName' | 'countCondition'>): Promise<T>;
     /**
      * @method 查询数据(更具表具体属性)返回具体某一个
      * @param {Object}

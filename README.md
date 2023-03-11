@@ -1,17 +1,17 @@
 <!--
  * @Description: file content
- * @Author: 小白
- * @Date: 2020-04-07 20:48:03
- * @LastEditors: 小白
- * @LastEditTime: 2020-04-09 17:59:43
+ * @Author: andi
+ * @Date: 2023-03-11 20:48:03
+ * @LastEditors: andi
+ * @LastEditTime: 2023-03-11 17:59:43
  -->
-# ts-indexdb 
-[![Build Status](https://travis-ci.com/swcbo/ts-indexdb.svg?branch=master)](https://app.travis-ci.com/github/swcbo/ts-indexdb)
+# nulink-ts-indexdb 
+[![Build Status](https://github.com/andi2233i/nulink-ts-indexdb)](https://github.com/andi2233i/nulink-ts-indexdb)
 ## Install
 
 ```sh
-npm install ts-indexdb
-yarn add ts-indexdb
+npm install @nulink_network/ts-indexdb
+yarn add @nulink_network/ts-indexdb
 ```
 ## Usage
 ### Typescript

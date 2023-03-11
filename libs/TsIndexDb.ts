@@ -1,9 +1,9 @@
 /*
  * @Description: file content
- * @Author: 小白
- * @Date: 2020-04-08 21:25:02
- * @LastEditors: 小白
- * @LastEditTime: 2020-04-10 14:40:36
+ * @Author: andi
+ * @Date: 2023-03-11 21:25:02
+ * @LastEditors: andi
+ * @LastEditTime: 2023-03-11 14:40:36
  */
 export type IIndexDb = {
     dbName: string
@@ -33,6 +33,23 @@ export interface DbOperate<T> {
     success(res: T[] | T): void
     handle(res: T): void
 
+}
+
+export interface DbCountOperate<T> {
+    tableName: string;
+    key: string;
+    countCondition: {
+        type: 'equal' | 'gt' | 'lt' | 'between';
+        rangeValue: [any, any?, any?, any?];
+    };
+}
+export interface DbCountOperate<T> {
+    tableName: string;
+    key: string;
+    countCondition: {
+        type: 'equal' | 'gt' | 'lt' | 'between';
+        rangeValue: [any, any?, any?, any?];
+    };
 }
 
 export class TsIndexDb {
@@ -112,7 +129,7 @@ export class TsIndexDb {
         key ≥ x &&< y	    {key: 'between' rangeValue: [x, y, false, true]}
         key = z	            {key: 'equal' rangeValue: [z]}
      */
-    count<T>({ tableName, key, countCondition }: Pick<DbOperate<T>, 'key' | 'tableName' | 'countCondition'>) {
+    count<T>({ tableName, key, countCondition }: Pick<DbCountOperate<T>, 'key' | 'tableName' | 'countCondition'>) {
         const mapCondition: MapCondition = {
             equal: IDBKeyRange.only,
             gt: IDBKeyRange.lowerBound,
