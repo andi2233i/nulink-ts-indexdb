@@ -28,58 +28,70 @@ export type Rack =  {
 ```
 import TsIndexDb = require('ts-indexdb');
 ```
-## 数据库操作方法
-### 注意
-* 当前类为单例模式只要init一次,后面直接getInstance获取实例来操作数据库
-* 操作返回的均为Promis对象
-* js不用加泛型
-### 数据库与表操作
-方法|方法名|参数|属性
---|:--|:--:|:--
-open_db|打开数据库|无|-
-close_db|关闭数据库|无|-
-delete_db|删除数据库|String|name
-delete_table|删除表数据|String|tableName
+## Methods of Database Operations
+### Note:
+* This class is a singleton pattern, so it only needs to be initialized once with init(), and then you can use getInstance() to get the instance for database operations.
+* All the operations return Promises.
+* Generics are not needed in JavaScript.
+### Database and Table Operations
+| Method | Method Name | Parameter | Attribute |
+| --- | --- | --- | --- |
+| open_db | Open Database | None | - |
+| close_db | Close Database | None | - |
+| delete_db | Delete Database | String | name |
+| delete_table | Delete Table Data | String | tableName |
 
 
-### 查询操作(query)
-方法|方法名|参数|属性
---|:--|:--:|:--
-queryAll|查询某张表的所有数据(返回具体数组)|Object|{ tableName }
-query|查询(返回具体数组)|Object|{ tableName, condition }
-query_by_keyValue|查询数据(更具表具体属性)返回具体某一个|Object|{ tableName, key, value }
-query_by_primaryKey|查询数据（主键值）|Object|{ tableName, value }
-count|查询数据（主键值）|Object|{ tableName, key, countCondition:{type,rangeValue } }
-
-### 更新操作(update)
-方法|方法名|参数|属性
---|:--|:--:|:--
-update|更具条件修改数据(返回修改的数组)|Object|{ tableName, condition, handle }
-update_by_primaryKey|修改某条数据(主键)返回修改的对象|Object|{  tableName, value, handle }
-
-### 插入操作(insert)
-方法|方法名|参数|属性
---|:--|:--:|:--
-insert|增加数据|Object|{ tableName, data(数组或者单独对象) }
-
-### 删除操作(delete)
-方法|方法名|参数|属性
---|:--|:--:|:--
-delete|根据条件删除数据(返回删除数组)|Object|{ tableName, condition }
-delete_by_primaryKey|删除数据(主键)|Object|{ tableName, value }
 
 
-## 例子：
-### 初始化
-```
+### Query Operations
+
+| Method | Method Name | Parameter | Attribute |
+| --- | --- | --- | --- |
+| queryAll | Query all data of a table (return as an array) | Object | { tableName } |
+| query | Query data (return as an array) | Object | { tableName, condition } |
+| query_by_keyValue | Query data by specific table property (return as a specific item) | Object | { tableName, key, value } |
+| query_by_primaryKey | Query data by primary key value | Object | { tableName, value } |
+| count | Count data by primary key value | Object | { tableName, key, countCondition:{type,rangeValue } } |
+
+
+### Update Operations
+
+| Method | Method Name | Parameter | Attribute |
+| --- | --- | --- | --- |
+| update | Update data based on a condition (return the modified data as an array) | Object | { tableName, condition, handle } |
+| update_by_primaryKey | Update specific data by primary key value (return the modified data as an object) | Object | { tableName, value, handle } |
+
+### Insert Operations
+
+| Method | Method Name | Parameter | Attribute |
+| --- | --- | --- | --- |
+| insert | Insert data | Object | { tableName, data(array or single object) } |
+
+### Delete Operations
+
+| Method | Method Name | Parameter | Attribute |
+| --- | --- | --- | --- |
+| delete | Delete data based on a condition (return the deleted data as an array) | Object | { tableName, condition } |
+| delete_by_primaryKey | Delete data by primary key value | Object | { tableName, value } |
+
+
+
+
+## Example:
+
+### Initialization
+
+
+```swift
 await init({
-    dbName: "books",        // 数据库名称               
-    version: 1,             // 版本号                
+    dbName: "books",        // database name               
+    version: 1,             // version number                
     tables: [                               
         {
-            tableName: "bookrackList",         // 表名         
-            option: { keyPath: "id", autoIncrement: true }, // 指明主键为id
-            indexs: [    // 数据库索引
+            tableName: "bookrackList",         // table name         
+            option: { keyPath: "id", autoIncrement: true }, // specify the primary key as "id"
+            indexs: [    // database indexes
                 {
                     key: "id",
                     option: {
@@ -94,12 +106,14 @@ await init({
     ]
 })
 ```
-### 查询
- ```
-  /**
-    * @method 查询某张表的所有数据(返回具体数组)
+
+### Query
+
+```vbnet
+/**
+    * @method Query all data of a table (return as an array)
     * @param {Object}
-    *   @property {String} tableName 表名
+    *   @property {String} tableName table name
     */
   await getInstance().queryAll<Rack>({
     tableName: 'bookrackList'
@@ -107,10 +121,10 @@ await init({
 
 
   /**
-    * @method 查询(返回具体数组)
+    * @method Query data (return as an array)
     * @param {Object}
-    *   @property {String} tableName 表名
-    *   @property {Function} condition 查询的条件
+    *   @property {String} tableName table name
+    *   @property {Function} condition query condition
     * */
   await getInstance().query<Rack>({
      tableName: 'bookrackList',
@@ -118,38 +132,39 @@ await init({
    });
 
   /**
-    * @method 查询数据(更具表具体属性)返回具体某一个
+    * @method Query data by specific table property (return as a specific item)
     * @param {Object}
-    *   @property {String} tableName 表名
-    *   @property {Number|String} key 名
-    *   @property {Number|String} value 值
+    *   @property {String} tableName table name
+    *   @property {Number|String} key property name
+    *   @property {Number|String} value property value
     *
     * */
   await getInstance().query_by_keyValue<Rack>({
      tableName: 'bookrackList',
      key: 'name',
-     value: '我师兄实在太稳健了'
+     value: 'My senior fellow apprentice is really steady'
    });
 
   /**
-    * @method 查询数据（主键值）
+    * @method Query data by primary key value
     * @param {Object}
-    *   @property {String} tableName 表名
-    *   @property {Number|String} value 主键值
+    *   @property {String} tableName table name
+    *   @property {Number|String} value primary key value
     *
     * */ 
   await getInstance().query_by_primaryKey<Rack>({
      tableName: 'bookrackList',
      value: 3
    });
+
   /**
-     * @method 查询满足key条件的个数(返回满足条件的数字个数)
+     * @method Count data by primary key value
      * @param {Object}
-     *   @property {String} tableName 表名
-     *   @property {Number|String} key 查询的key
-     *   @property {Object} countCondition 查询条件
+     *   @property {String} tableName table name
+     *   @property {Number|String} key query key
+     *   @property {Object} countCondition query condition
    * */
-  /** countCondition传入方式 key 必须为已经简历索引的字段
+  /** Count condition input method:
    *  key ≥ x	            {key: 'gt' rangeValue: [x]}
       key > x	            {key: 'gt' rangeValue: [x, true]}
       key ≤ y	            {key: 'lt' rangeValue: [y]}
@@ -168,100 +183,104 @@ await init({
       rangeValue:[1676627113088,new Date().getTime()]
     }
   })
-
-  ```
-
-### 更新
 ```
-  /**
-     * @method 修改数据(返回修改的数组)
+
+### Update
+
+
+```vbnet
+/**
+     * @method Update data based on a condition (return the modified data as an array)
      * @param {Object}
-     *   @property {String} tableName 表名
-     *   @property {Function} condition 查询的条件，遍历，与filter类似
-     *      @arg {Object} 每个元素
-     *      @return 条件
-     *   @property {Function} handle 处理函数，接收本条数据的引用，对其修改
+     *   @property {String} tableName table name
+     *   @property {Function} condition query condition, traverse, similar to filter
+     *      @arg {Object} each element
+     *      @return condition
+     *   @property {Function} handle processing function, receiving a reference to this data, and modifying it
      * */
   await getInstance().update<Rack>({
         tableName: 'bookrackList',
         condition: item => item.id === 8,
         handle: r => {
-          r.name = '测试修改';
+          r.name = 'test modification';
           return r;
         }
   })
 
 
   /**
-  * @method 修改某条数据(主键)返回修改的对象
+  * @method Update specific data by primary key value (return the modified data as an object)
   * @param {Object}
-  *   @property {String} tableName 表名
-  *   @property {String\|Number} value 目标主键值
-  *   @property {Function} handle 处理函数，接收本条数据的引用，对其修改
+  *   @property {String} tableName table name
+  *   @property {String|Number} value target primary key value
+  *   @property {Function} handle processing function, receiving a reference to this data, and modifying it
   * */
   await getInstance().update_by_primaryKey<Rack>({
         tableName: 'bookrackList',
         value: 1,
         handle: r => {
-          r.name = '测试修改';
+          r.name = 'test modification';
           return r;
         }
   })
+```
+### Insert
 
-```
-### 增加
-```
-  /**
-     * @method 增加数据
+
+```vbnet
+/**
+     * @method Insert data
      * @param {Object}
-     *   @property {String} tableName 表名
-     *   @property {Object} data 插入的数据
+     *   @property {String} tableName table name
+     *   @property {Object} data inserted data
      * */
   await getInstance().insert<Rack>({
     tableName: 'bookrackList',
     data: {
-      name: '测试',
+      name: 'test',
     }
   })
 ```
-
-### 删除
-
-    
-    /**
-      * @method 删除数据(返回删除数组)
-      * @param {Object}
-      *   @property {String} tableName 表名
-      *   @property {Function} condition 查询的条件，遍历，与filter类似
-      *      @arg {Object} 每个元素
-      *      @return 条件
-      * */
-    await getInstance().delete<Rack>({
-      tableName: 'bookrackList',
-      condition: (item)=> item.name === '测试',
-    })
+### Delete
 
 
-     /**
-      * @method 删除数据(主键)
-      * @param {Object}
-      *   @property {String} tableName 表名
-      *   @property {String\|Number} value 目标主键值
-      * */
-    await getInstance().delete_by_primaryKey<Rack>({
-      tableName: 'bookrackList',
-      value: 4
-    })
-
-    /**
-      * @method 删除表数据
-      * @param {String}name 数据库名称
-      */
-    await getInstance().delete_table('bookrackList')
+```vbnet
+/**
+  * @method Delete data based on a condition (return the deleted data as an array)
+  * @param {Object}
+  *   @property {String} tableName table name
+  *   @property {Function} condition query condition, traverse, similar to filter
+  *      @arg {Object} each element
+  *      @return condition
+  * */
+await getInstance().delete<Rack>({
+  tableName: 'bookrackList',
+  condition: (item)=> item.name === 'test',
+})
 
 
-    /**
-      * @method 删除数据库
-      * @param {String}name 数据库名称
-      */
-    await getInstance().delete_db('bookrackList')
+ /**
+  * @method Delete data by primary key value
+  * @param {Object}
+  *   @property {String} tableName table name
+  *   @property {String|Number} value target primary key value
+  * */
+await getInstance().delete_by_primaryKey<Rack>({
+  tableName: 'bookrackList',
+  value: 4
+})
+
+/**
+  * @method Delete all data of a table
+  * @param {String}name database name
+  */
+await getInstance().delete_table('bookrackList')
+
+
+/**
+  * @method Delete a database
+  * @param {String}name database name
+  */
+await getInstance().delete_db('bookrackList')
+```
+

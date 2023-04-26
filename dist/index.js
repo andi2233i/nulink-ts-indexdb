@@ -10,7 +10,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const TsIndexDb_1 = require("./TsIndexDb");
 exports.TsIndexDb = TsIndexDb_1.TsIndexDb;
 // /**
-//  * @method 初始化函数
+//  * @method The initialization function
 //  * @param param0
 //  * @param isMany
 //  */
@@ -23,7 +23,7 @@ exports.TsIndexDb = TsIndexDb_1.TsIndexDb;
 //     return db.open_db()
 // }
 /**
- * @method 初始化函数
+ * @method The initialization function
  * @param param0
  * @param isMany
  */
@@ -36,6 +36,6 @@ exports.init = ({ dbName, version = 1, tables = [], }) => {
     return db.open_db();
 };
 /**
- * @method 获取单例的单个对象
+ * @method To get the singleton object
  */
 exports.getInstance = () => TsIndexDb_1.TsIndexDb.getInstance();
