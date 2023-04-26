@@ -1,6 +1,6 @@
 {
   "name": "@nulink_network/ts-indexdb",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "typescript indexDb capsulation",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
